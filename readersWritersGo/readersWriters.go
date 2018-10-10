@@ -49,10 +49,9 @@ func main() {
 	// create the shared resource
 	resource := NewResource("No Content")
 
-	// wait until all goroutines are done
+	// control when is all done
 	var wg sync.WaitGroup
 	wg.Add(*nReaders + *nWriters)
-	defer wg.Wait()
 
 	// launch the readers
 	for i := 0; i < *nReaders; i++ {
@@ -63,6 +62,9 @@ func main() {
 	for i := 0; i < *nWriters; i++ {
 		go NewWriter(i, resource, &wg).write()
 	}
+
+	// wait until all goroutines are done
+	wg.Wait()
 
 	// Memory Profile
 	if *memprofile != "" {
