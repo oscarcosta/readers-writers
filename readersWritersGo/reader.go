@@ -1,8 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"sync"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 // Reader definition
@@ -20,9 +21,9 @@ func NewReader(id int, resource *Resource, wg *sync.WaitGroup) *Reader {
 func (r *Reader) read() {
 	defer r.wg.Done()
 
-	fmt.Printf("Reader %d starting\n", r.id)
+	log.Info("Reader starting ", r.id)
 
 	r.resource.read(r.id)
 
-	fmt.Printf("Reader %d is done\n", r.id)
+	log.Info("Reader done ", r.id)
 }

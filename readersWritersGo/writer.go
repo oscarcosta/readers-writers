@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"sync"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 // Writer definition
@@ -20,9 +22,9 @@ func NewWriter(id int, resource *Resource, wg *sync.WaitGroup) *Writer {
 func (w *Writer) write() {
 	defer w.wg.Done()
 
-	fmt.Printf("Writer %d starting\n", w.id)
+	log.Info("Writer starting ", w.id)
 
 	w.resource.write(w.id, fmt.Sprintf("Content #%d", w.id))
 
-	fmt.Printf("Writer %d is done\n", w.id)
+	log.Info("Writer done ", w.id)
 }

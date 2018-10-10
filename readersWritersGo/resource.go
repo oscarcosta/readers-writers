@@ -1,8 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"sync"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 // Resource definition
@@ -25,12 +26,12 @@ func (r *Resource) write(id int, data string) string {
 	defer r.turnstile.Unlock()
 	defer r.roomEmpty.Unlock()
 
-	fmt.Printf("--Writer %d entered the room\n", id)
-	defer fmt.Printf("--Writer %d left the room\n", id)
+	log.Info("--Writer entered the room ", id)
+	defer log.Info("--Writer left the room ", id)
 
 	//time.Sleep(100 * time.Millisecond)
 	r.content = data
-	fmt.Printf("----Writer %d wrote '%s'\n", id, r.content)
+	log.Info("----Writer ", id, " wrote ", r.content)
 	return r.content
 }
 
@@ -41,10 +42,10 @@ func (r *Resource) read(id int) string {
 	// critical section occurs here
 	defer r.readSwitch.Unlock(&r.roomEmpty)
 
-	fmt.Printf("--Reader %d entered the room\n", id)
-	defer fmt.Printf("--Reader %d left the room\n", id)
+	log.Info("--Reader entered the room ", id)
+	defer log.Info("--Reader left the room ", id)
 
 	//time.Sleep(100 * time.Millisecond)
-	fmt.Printf("----Reader %d read '%s'\n", id, r.content)
+	log.Info("----Reader ", id, " read ", r.content)
 	return r.content
 }
