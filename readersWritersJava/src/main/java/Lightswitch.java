@@ -3,11 +3,7 @@ import java.util.concurrent.Semaphore;
 public class Lightswitch {
 
     private int counter = 0;
-    private Semaphore mutex;
-
-    public Lightswitch() {
-        this.mutex = new Semaphore(1);
-    }
+    private final Semaphore mutex = new Semaphore(1);
 
     public void lock(Semaphore semaphore) throws InterruptedException {
         try {

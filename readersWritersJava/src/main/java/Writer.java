@@ -4,7 +4,7 @@ public class Writer implements Runnable {
     private final int id;
     private final Resource resource;
 
-    public Writer(int id, Resource resource) {
+    public Writer(final int id, final Resource resource) {
         this.id = id;
         this.resource = resource;
     }
@@ -12,11 +12,11 @@ public class Writer implements Runnable {
     @Override
     public void run() {
         try {
-            System.out.printf("Writer %d starting\n", id);
+            //System.out.printf("Writer %d starting\n", id);
 
             resource.write(id, String.format("Content #%d", id));
 
-            System.out.printf("Writer %d is done\n", id);
+            //System.out.printf("Writer %d is done\n", id);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

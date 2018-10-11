@@ -29,7 +29,6 @@ public class ReadersWriters {
         int nWriters = Integer.valueOf(args[1]);
         
         ReadersWriters rw = new ReadersWriters(nReaders, nWriters);
-        
         rw.execute();
     }
 }
