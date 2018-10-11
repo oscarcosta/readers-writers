@@ -12,10 +12,9 @@ public class Resource {
     }
 
     public String write(int id, String data) throws InterruptedException {
+        turnstile.acquire();
+        roomEmpty.acquire();
         try {
-            turnstile.acquire();
-            roomEmpty.acquire();
-
             // critical section
             //System.out.printf("--Writer %d entered the room\n", id);
 
@@ -31,11 +30,10 @@ public class Resource {
     }
 
     public String read(int id) throws InterruptedException {
+        turnstile.acquire();
+        turnstile.release();
+        readSwitch.lock(roomEmpty);
         try {
-            turnstile.acquire();
-            turnstile.release();
-            readSwitch.lock(roomEmpty);
-
             // critical section
             //System.out.printf("--Reader %d entered the room\n", id);
 
